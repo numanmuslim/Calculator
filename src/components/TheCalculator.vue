@@ -1,5 +1,5 @@
 <template>
-  <v-app @keydown="handleKeyPress" @keydown.enter.prevent>
+  <v-app @keydown.enter.prevent>
     <v-container fluid>
       <v-row>
         <v-col cols="12">
@@ -39,7 +39,6 @@
               type="text"
               class="calculator__result-primary"
               readonly
-              autofocus
             />
           </v-responsive>
         </v-col>
@@ -81,6 +80,13 @@ export default {
       }
     },
   },
+  mounted(){
+    window.addEventListener('keydown', this.handleKeyPress);
+  },
+  beforeUnmount(){
+    window.removeEventListener('keydown', this.handleKeyPress);
+  }
+  ,
   setup() {
     const { name } = useDisplay();
 
