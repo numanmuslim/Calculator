@@ -38,31 +38,31 @@
 <script>
 export default {
   props: ["history"],
-  emit: ['historyItemClick', 'clearHistory'],
+  emit: ["historyItemClick", "clearHistory"],
   data() {
     return {
       sheet: false,
     };
   },
-  methods : {
-    historyItemClick(ind){
-        this.sheet = false;
-        this.$emit('historyItemClick',ind)
-    }
-  }
+  methods: {
+    historyItemClick(ind) {
+      this.sheet = false;
+      this.$emit("historyItemClick", ind);
+    },
+  },
 };
 </script>
 
 <style>
 .v-bottom-sheet__content {
-  background-color: white; 
+  background-color: white;
 }
 
 .history-item .expression {
   font-size: 0.9rem;
   color: grey;
   text-align: right;
-  
+
   margin-right: 1%;
 }
 

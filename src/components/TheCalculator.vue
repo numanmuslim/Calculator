@@ -1,6 +1,6 @@
 <template>
   <v-app @keydown.enter.prevent>
-    <v-container fluid>
+    <div class="d-flex flex-column pa-3" style="height: 35vh">
       <v-row>
         <v-col cols="12">
           <v-responsive style="height: 8vh">
@@ -21,7 +21,7 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-responsive style="height: 10vh">
+          <v-responsive style="height: 8vh">
             <input
               v-model="upperDisplay"
               type="text"
@@ -33,7 +33,7 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-responsive style="height: 10vh">
+          <v-responsive style="height: 8vh">
             <input
               v-model="display"
               type="text"
@@ -43,18 +43,18 @@
           </v-responsive>
         </v-col>
       </v-row>
+    </div>
+    <div class="d-inline-flex flex-column pa-3" style="height: 65vh">
       <v-row>
         <v-col class="p-style" v-for="button in buttons" :key="button" cols="3">
-          <v-responsive :height="height">
-            <base-button
-              @inp="input"
-              :value="button"
-              :isDisable="disable_btn && checkDisableBtn(button)"
-            ></base-button>
-          </v-responsive>
+          <base-button
+            @inp="input"
+            :value="button"
+            :isDisable="disable_btn && checkDisableBtn(button)"
+          ></base-button>
         </v-col>
       </v-row>
-    </v-container>
+    </div>
   </v-app>
 </template>
 
@@ -62,8 +62,6 @@
 import calculatorMixin from "./mixins/calculator";
 import BaseButton from "./ui/BaseButton.vue";
 import HistoryDialog from "./ui/HistoryDialog.vue";
-import { computed } from "vue";
-import { useDisplay } from "vuetify";
 
 export default {
   components: {
@@ -80,40 +78,18 @@ export default {
       }
     },
   },
-  mounted(){
-    window.addEventListener('keydown', this.handleKeyPress);
+  mounted() {
+    window.addEventListener("keydown", this.handleKeyPress);
   },
-  beforeUnmount(){
-    window.removeEventListener('keydown', this.handleKeyPress);
-  }
-  ,
-  setup() {
-    const { name } = useDisplay();
-
-    const height = computed(() => {
-      // console.log(name._object.height)
-      const displayHeight = name._object.height;
-      if (450 > displayHeight) return "8vh";
-      else if (450 <= displayHeight && displayHeight < 500) return "8.3vh";
-      else if (500 <= displayHeight && displayHeight < 550) return "8.5vh";
-      else if (550 <= displayHeight && displayHeight <= 600) return "8.8vh";
-      else if (600 <= displayHeight && displayHeight < 650) return "9.1vh";
-      else if (650 <= displayHeight && displayHeight < 700) return "9.5vh";
-      else if (700 <= displayHeight && displayHeight < 750) return "9.6vh";
-      else if (750 <= displayHeight && displayHeight <= 850) return "9.7vh";
-      else if (1000 <= displayHeight && displayHeight <= 1280) return "10.3vh";
-      else if (1280 <= displayHeight) return "10.6vh";
-      else return "10vh";
-    });
-    //   console.log(height.value)
-    return { height };
+  beforeUnmount() {
+    window.removeEventListener("keydown", this.handleKeyPress);
   },
 };
 </script>
 
 <style>
 .p-style {
-  padding: 0.2%;
+  padding: 0.15%;
 }
 
 .calculator__result-primary,
@@ -136,6 +112,7 @@ export default {
   margin-top: 10px;
   color: #4b4b4b;
 }
+
 .v-application {
   background-color: #f3f3f3;
 }

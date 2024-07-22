@@ -80,14 +80,13 @@ export default {
     },
     handleBackspace() {
       if (this.setDisplay || this.setDiplayAfterEqual) this.clearAll();
-      else if(this.removeDisplayValue) this.clearEntry()
+      else if (this.removeDisplayValue) this.clearEntry();
       else {
         this.display = this.display.slice(0, -1) || "0";
         this.currentValue = this.display;
       }
     },
     handlePercentage() {
-      // this.display = String(parseFloat(this.display) / parseFloat(this.previousValue) * 100);
       if (this.operator === "÷" || this.operator === "×") {
         this.display = String(parseFloat(this.display) / 100);
         this.upperDisplay =
@@ -159,8 +158,6 @@ export default {
         }
         this.operator = operator;
         this.previousValue = String(parseFloat(this.display));
-        // this.currentValue = "0";
-        // this.display = "0";
         this.removeDisplayValue = true;
       }
       this.operator = operator;
