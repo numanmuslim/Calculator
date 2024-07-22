@@ -1,4 +1,15 @@
-# calculator
+# Vue Calculator
+
+A simple, responsive calculator built with Vue.js and Vuetify.
+
+## Features
+
+- Basic arithmetic operations: addition, subtraction, multiplication, and division.
+- Advanced operations: percentage, reciprocal, square, square root.
+- History of calculations with the ability to reuse previous results.
+- Keyboard support for input.
+- Responsive design for various screen sizes.
+
 
 ## Project setup
 ```
