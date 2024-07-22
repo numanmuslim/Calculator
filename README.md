@@ -10,32 +10,6 @@ A simple, responsive calculator built with Vue.js and Vuetify.
 - Keyboard support for input.
 - Responsive design for various screen sizes.
 
-## Project Structure
-CALCULATOR
-│
-├── node_modules/
-├── public/
-│ ├── favicon.ico
-│ └── index.html
-├── src/
-│ ├── components/
-│ │ ├── mixins/
-│ │ │ ├── calculator.js
-│ │ ├── ui/
-│ │ │ ├── BaseButton.vue
-│ │ │ ├── HistoryDialog.vue
-│ │ │ ├── TheCalculator.vue
-│ ├── App.vue
-│ ├── main.js
-├── .gitignore
-├── babel.config.js
-├── jsconfig.json
-├── package-lock.json
-├── package.json
-├── README.md
-├── vue.config.js
-
-
 ## Project setup
 ```
 npm install
