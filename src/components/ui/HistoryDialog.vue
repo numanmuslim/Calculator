@@ -62,7 +62,6 @@ export default {
   font-size: 0.9rem;
   color: grey;
   text-align: right;
-
   margin-right: 1%;
 }
 

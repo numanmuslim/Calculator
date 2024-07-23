@@ -1,5 +1,5 @@
 <template>
-  <v-app @keydown.enter.prevent>
+  <v-app @keydown.enter.prevent style="background-color: #f3f3f3;">
     <div class="d-flex flex-column pa-3" style="height: 16vh">
       <v-row>
         <v-col cols="12">
@@ -95,15 +95,9 @@ export default {
 </script>
 
 <style>
-
-.v-application {
-  background-color: #f3f3f3;
-}
-
 .v-text-field input {
     font-size: 1.5rem;
     font-weight: bolder;
-    margin-top: 0%;
 }
 
 @media (max-height: 300px) {
