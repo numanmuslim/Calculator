@@ -6,6 +6,7 @@
       @click="$emit('inp',value)"
       block
       :disabled="isDisable"
+      variant="text"
     >
       {{ value }}
     </v-btn>
@@ -15,7 +16,7 @@
   export default {
     data(){
       return { 
-        numbersBtn: ['1','2','3','4','5','6','7','8','9','0','.','+/−']
+        numbersBtn: ['1','2','3','4','5','6','7','8','9','0','.','+/-']
       }
     },
     props: {
@@ -29,7 +30,7 @@
   
   <style scoped>
   .equal {
-    background-color: rgb(255, 0, 0) !important;
+    background-color: rgb(179, 3, 3) !important;
     color: white !important;
   }
   .number {

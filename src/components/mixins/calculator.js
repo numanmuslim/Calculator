@@ -1,3 +1,5 @@
+
+import Decimal from "decimal.js";
 import { disable_btn_list, buttons, keyPressButtonList } from "./variables.js";
 export default {
   data() {
@@ -16,6 +18,13 @@ export default {
       disable_btn_list,
       buttons,
     };
+  },
+  computed: {
+    displayFormated(){
+        const [integer, decimal] = this.display.split('.');
+        const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return decimal !== undefined ? `${formattedInteger}.${decimal}` : formattedInteger;
+    }
   },
   methods: {
     handleKeyPress(event) {
@@ -70,7 +79,7 @@ export default {
     handleNumber(value) {
       if (this.setDisplay || this.setDiplayAfterEqual) this.clearAll();
       if (this.removeDisplayValue) this.clearEntry();
-      if (this.display.length > 13) {
+      if (this.display.length > 16) {
       } else if (this.display === "0" && value !== ".") {
         this.display = value;
       } else {
@@ -88,14 +97,13 @@ export default {
     },
     handlePercentage() {
       if (this.operator === "÷" || this.operator === "×") {
-        this.display = String(parseFloat(this.display) / 100);
+        this.display = String(new Decimal(this.display).divToInt(100));
         this.upperDisplay =
           this.previousValue + " " + this.operator + " " + this.display;
       } else if (this.operator === "+" || this.operator === "−") {
         this.display = String(
-          (parseFloat(this.display) * parseFloat(this.previousValue + "0")) /
-            100
-        );
+          new Decimal(this.display).mul(new Decimal(this.previousValue + "0")).divToInt(100))
+            
         this.upperDisplay =
           this.previousValue + " " + this.operator + " " + this.display;
       } else {
@@ -107,20 +115,20 @@ export default {
     handleReciprocal() {
       this.upperDisplay = `${this.previousValue} ${
         this.operator
-      } 1 / (${parseFloat(this.display)})`;
+      } 1 / (${new Decimal(this.display)})`;
       if (this.display === "0") {
         this.display = "Cannot divide by zero";
         this.disable_btn = true;
         this.setDisplay = true;
       } else {
-        this.display = String(1 / parseFloat(this.display));
+        this.display = String(1 / new Decimal(this.display).toNumber());
         this.currentValue = this.display;
         this.triggerUpperFunc = true;
       }
     },
     handleSquare() {
       this.upperDisplay = `${this.previousValue} ${this.operator} sqr(${this.display})`;
-      this.display = String(Math.pow(parseFloat(this.display), 2));
+      this.display = String(Math.pow(new Decimal(this.display).toNumber(), 2));
       this.currentValue = this.display;
       if (this.display === "Infinity") {
         this.display = "Overflow";
@@ -132,7 +140,7 @@ export default {
     },
     handleSquareRoot() {
       this.upperDisplay = `${this.previousValue} ${this.operator} √(${this.display})`;
-      this.display = String(Math.sqrt(parseFloat(this.display)));
+      this.display = String(Math.sqrt(new Decimal(this.display).toNumber()));
       this.currentValue = this.display;
       if (this.display === "NaN") {
         this.display = "Invalid Input";
@@ -143,7 +151,7 @@ export default {
       }
     },
     toggleSign() {
-      this.display = String(parseFloat(this.display) * -1);
+      this.display = String(new Decimal(this.display).mul(-1));
       this.currentValue = this.display;
     },
     handleOperator(operator) {
@@ -157,7 +165,7 @@ export default {
           this.calculate();
         }
         this.operator = operator;
-        this.previousValue = String(parseFloat(this.display));
+        this.previousValue = String(new Decimal(this.display));
         this.removeDisplayValue = true;
       }
       this.operator = operator;
@@ -167,24 +175,23 @@ export default {
     calculate() {
       if (this.previousValue && this.operator && this.currentValue) {
         if (this.disable_btn) return this.clearAll();
-        const prev = parseFloat(this.previousValue);
-        const current = parseFloat(this.currentValue);
+        const prev = new Decimal(this.previousValue);
+        const current = new Decimal(this.currentValue);
         let result = 0;
         switch (this.operator) {
           case "+":
-            result = prev + current;
+            result = prev.plus(current);
             break;
           case "−":
-            result = prev - current;
+            result = prev.minus(current);
             break;
           case "×":
-            result = prev * current;
+            result = prev.mul(current);
             break;
           case "÷":
-            result = prev / current;
+            result = prev.dividedBy(current);
             break;
         }
-        result = parseFloat(result.toPrecision(14));
         this.upperDisplay = prev + " " + this.operator + " " + current + " =";
         if (String(result) === "NaN") {
           this.display = "Result is undefined";
@@ -210,8 +217,8 @@ export default {
       } else if (this.triggerUpperFunc) {
         if (this.disable_btn) return this.clearAll();
         this.upperDisplay = `${this.upperDisplay} =`;
-        let result = parseFloat(this.display);
-        result = parseFloat(result.toPrecision(14));
+        let result = new Decimal(this.display);
+        result = result.toString();
         const historyEntry = {
           expression: `${this.upperDisplay}`,
           result: `${result}`,
@@ -224,8 +231,9 @@ export default {
         this.display = `${result}`;
       } else {
         if (this.disable_btn) return this.clearAll();
-        let result = parseFloat(this.display);
-        result = parseFloat(result.toPrecision(14));
+        let result = new Decimal(this.display);
+        result = result.toString();
+        // result = BigInt(result.toPrecision(17));
         this.upperDisplay = `${result} =`;
         const historyEntry = {
           expression: `${result} =`,
@@ -259,5 +267,6 @@ export default {
       }
       this.removeDisplayValue = false;
     },
+    
   },
 };
